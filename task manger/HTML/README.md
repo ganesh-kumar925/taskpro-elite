@@ -37,7 +37,7 @@ Add screenshots here after deployment.
 
 ## 🌐 Live Demo
 
-Add Vercel deployment link here.
+taskpro-elite.vercel.app
 
 ---
 
@@ -53,4 +53,4 @@ Open `index.html` in browser.
 
 ## 👨‍💻 Author
 
-Pabbisetty Tagur Naga Bapayya
+Pathakota Ganesh Kumar Reddy
