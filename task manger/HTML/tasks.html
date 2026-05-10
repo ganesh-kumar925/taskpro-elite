@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Tasks • TaskPro Enterprise</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+
+<body onload="loadTasksPage()">
+
+    <div class="mesh-gradient"></div>
+
+    <div class="app-shell">
+        
+        <!-- GLOBAL SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="logo">TP</div>
+                <span>TaskPro</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-link">
+                    <span class="icon">🏠</span> Overview
+                </a>
+                <a href="tasks.html" class="nav-link active">
+                    <span class="icon">📋</span> My Tasks
+                </a>
+                <a href="analytics.html" class="nav-link">
+                    <span class="icon">📊</span> Analytics
+                </a>
+                <a href="ai.html" class="nav-link">
+                    <span class="icon">✨</span> AI Copilot
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button onclick="logout()" class="btn-logout">
+                    <span>🚪</span> Logout
+                </button>
+            </div>
+        </aside>
+
+        <main class="content-view">
+            <header class="view-header">
+                <div class="header-left">
+                    <h1>Mission Control</h1>
+                    <p>Manage and organize your workload</p>
+                </div>
+                <div class="header-right">
+                    <button class="btn-primary" onclick="toggleInputArea()">+ New Task</button>
+                </div>
+            </header>
+
+            <div class="view-body">
+                
+                <!-- TASK INPUT AREA (Collapsible) -->
+                <div id="taskInputArea" class="task-input-panel">
+                    <div class="input-card">
+                        <div class="input-main">
+                            <input type="text" id="taskText" placeholder="Enter task title...">
+                        </div>
+                        <div class="input-extras">
+                            <input type="date" id="taskDueDate">
+                            <input type="text" id="taskTag" placeholder="Tag (e.g. Work)">
+                            <select id="taskCategory">
+                                <option value="Work">Work</option>
+                                <option value="Personal">Personal</option>
+                                <option value="Internship">Internship</option>
+                            </select>
+                            <select id="taskPriority">
+                                <option value="Low">Low</option>
+                                <option value="Medium" selected>Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                            <button onclick="addTask()" class="btn-confirm">Add Task</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TASK LIST VIEW -->
+                <div class="task-view-container">
+                    <div class="list-controls">
+                        <div class="search-box">
+                            <input type="text" id="taskSearch" placeholder="Filter tasks..." oninput="showTasks()">
+                        </div>
+                        <div class="filter-pills">
+                            <button class="pill active" onclick="filterTasks('all')">All</button>
+                            <button class="pill" onclick="filterTasks('Work')">Work</button>
+                            <button class="pill" onclick="filterTasks('Internship')">Internship</button>
+                        </div>
+                    </div>
+
+                    <ul id="taskList" class="main-task-list"></ul>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- EDIT MODAL -->
+    <div id="editModal" class="modal">
+        <div class="modal-card">
+            <h3>Update Task</h3>
+            <div class="modal-body">
+                <input type="text" id="editTaskText">
+                <div class="modal-row">
+                    <input type="date" id="editTaskDueDate">
+                    <input type="text" id="editTaskTag">
+                </div>
+                <div class="modal-row">
+                    <select id="editTaskCategory">
+                        <option value="Work">Work</option>
+                        <option value="Personal">Personal</option>
+                        <option value="Internship">Internship</option>
+                    </select>
+                    <select id="editTaskPriority">
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button onclick="closeModal()" class="btn-secondary">Cancel</button>
+                <button id="saveEditBtn" class="btn-primary">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="storage.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>

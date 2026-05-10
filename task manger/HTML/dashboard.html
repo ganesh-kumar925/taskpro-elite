@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskPro Elite • Next Gen Workspace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/dashboard.css?v=2.4">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body onload="loadDashboard()">
+
+    <div class="glass-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <div class="app-shell">
+        
+        <!-- SIDE PANEL -->
+        <aside class="side-panel">
+            <div class="side-header">
+                <div class="elite-logo">TP</div>
+                <div class="brand-text">
+                    <h2>TaskPro</h2>
+                </div>
+            </div>
+            
+            <nav class="side-nav">
+                <div class="nav-group">
+                    <label>Workspace</label>
+                    <a href="#" id="nav-overview" class="nav-item active" onclick="switchSection('overview')">
+                        <span class="icon">⚡</span> Dashboard
+                    </a>
+                    <a href="#" id="nav-tasks" class="nav-item" onclick="switchSection('tasks')">
+                        <span class="icon">📋</span> Missions
+                    </a>
+                </div>
+                <div class="nav-group">
+                    <label>Intelligence</label>
+                    <a href="#" class="nav-item" onclick="openAIChat()">
+                        <span class="icon">✨</span> AI Copilot
+                    </a>
+                </div>
+            </nav>
+
+            <div class="side-footer">
+                <div class="user-pill" style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 15px;">
+                    <img id="userAvatar" src="" alt="U" style="width: 30px; height: 30px; border-radius: 50%;">
+                    <span id="usernameDisplay" style="font-size: 13px; font-weight: 700; flex: 1;">User</span>
+                    <button onclick="logout()" style="background: none; border: none; color: #f87171; font-size: 10px; font-weight: 800; cursor: pointer;">Logout</button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-viewport">
+            
+            <header class="top-bar">
+                <div class="search-wrap">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" id="taskSearch" placeholder="Search mission control..." oninput="showTasks()">
+                </div>
+                <div class="top-actions">
+                    <button class="btn-action" onclick="exportTasks()">📥</button>
+                    <button class="btn-action" onclick="toggleDarkMode()">🌙</button>
+                    <button class="btn-primary-elite" onclick="toggleInput()">+ Deploy Mission</button>
+                </div>
+            </header>
+
+            <div class="viewport-content">
+                
+                <!-- OVERVIEW -->
+                <div id="overviewSection" class="section active">
+                    <div class="elite-grid">
+                        <div class="grid-card">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <h3>Workspace Flow</h3>
+                                <div id="progressPercent" style="font-size: 28px; font-weight: 800; color: #6366f1;">0%</div>
+                            </div>
+                            <div style="background: rgba(255,255,255,0.05); height: 6px; border-radius: 10px; margin: 15px 0; overflow: hidden;">
+                                <div id="progressBar" style="background: #6366f1; height: 100%; width: 0%; transition: 1s;"></div>
+                            </div>
+                            <p id="statSubtext" style="font-size: 12px; color: #a1a1aa;">Ready for new missions.</p>
+                        </div>
+
+                        <div class="grid-card ai-summary" onclick="openAIChat()" style="cursor: pointer;">
+                            <div style="font-size: 10px; font-weight: 800; color: #a855f7; letter-spacing: 1px; margin-bottom: 10px;">✨ LIVE COPILOT</div>
+                            <p id="aiInsightText" style="font-size: 14px; line-height: 1.5;">Click to discuss workspace strategy.</p>
+                        </div>
+
+                        <div class="grid-card" style="grid-column: span 2;">
+                            <canvas id="performanceChart" style="height: 180px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MISSIONS (TRUE KANBAN UPGRADE) -->
+                <div id="tasksSection" class="section">
+                    <div class="missions-dashboard">
+                        
+                        <!-- Mini Stats Header -->
+                        <div class="mission-stats-row">
+                            <div class="m-stat high">
+                                <span class="m-value" id="criticalCount">0</span>
+                                <small style="font-size: 9px; font-weight: 800; color: #a1a1aa;">CRITICAL</small>
+                            </div>
+                            <div class="m-stat">
+                                <span class="m-value" id="activeCount">0</span>
+                                <small style="font-size: 9px; font-weight: 800; color: #a1a1aa;">ACTIVE</small>
+                            </div>
+                            <div class="m-stat">
+                                <span class="m-value" id="completedCount">0</span>
+                                <small style="font-size: 9px; font-weight: 800; color: #a1a1aa;">SOLVED</small>
+                            </div>
+                        </div>
+
+                        <div class="missions-controls">
+                            <div class="filter-pills">
+                                <button class="pill-elite active" onclick="filterTasks('all')">All</button>
+                                <button class="pill-elite" onclick="filterTasks('Work')">Work</button>
+                                <button class="pill-elite" onclick="filterTasks('Personal')">Personal</button>
+                            </div>
+                        </div>
+
+                        <!-- INPUT -->
+                        <div id="inputArea" class="input-panel-elite" style="display: none;">
+                            <div class="input-row-elite">
+                                <input type="text" id="taskText" placeholder="Mission title...">
+                                <input type="date" id="taskDueDate">
+                                <input type="text" id="taskTag" placeholder="#tag">
+                            </div>
+                            <div class="input-row-elite">
+                                <select id="taskCategory">
+                                    <option value="Work">💼 Work</option>
+                                    <option value="Personal">🏠 Personal</option>
+                                </select>
+                                <select id="taskPriority">
+                                    <option value="High">🔥 High Priority</option>
+                                    <option value="Medium" selected>⚡ Standard</option>
+                                    <option value="Low">🧊 Low</option>
+                                </select>
+                                <button onclick="addTask()" class="btn-confirm-elite">Deploy Mission</button>
+                            </div>
+                        </div>
+
+                        <!-- BOARD -->
+                        <div class="mission-board">
+                            <div class="board-column">
+                                <div class="column-top">
+                                    <h3>Critical</h3>
+                                    <span class="count-chip" id="highListCount">0</span>
+                                </div>
+                                <div id="highPriorityList" class="column-tasks" style="overflow-y: auto; flex: 1; padding-right: 5px;"></div>
+                            </div>
+
+                            <div class="board-column">
+                                <div class="column-top">
+                                    <h3>Standard</h3>
+                                    <span class="count-chip" id="standardListCount">0</span>
+                                </div>
+                                <div id="standardPriorityList" class="column-tasks" style="overflow-y: auto; flex: 1; padding-right: 5px;"></div>
+                            </div>
+
+                            <div class="board-column">
+                                <div class="column-top">
+                                    <h3>Solved</h3>
+                                    <span class="count-chip" id="doneListCount">0</span>
+                                </div>
+                                <div id="completedList" class="column-tasks" style="overflow-y: auto; flex: 1; padding-right: 5px;"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+    
+    <!-- TOAST NOTIFICATIONS -->
+    <div id="toast-container"></div>
+
+    <div id="aiChatPanel" class="ai-chat-drawer">
+        <div style="padding: 20px 25px; border-bottom: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <h3 style="font-size: 16px;">✨ AI Copilot</h3>
+                <button onclick="toggleAISettings()" style="background: none; border: none; cursor: pointer; opacity: 0.5; font-size: 14px;" title="API Settings">⚙️</button>
+            </div>
+            <button onclick="closeAIChat()" style="background: none; border: none; color: white; font-size: 20px; cursor: pointer;">×</button>
+        </div>
+        
+        <div id="aiSettings" style="display: none; padding: 15px 25px; background: rgba(255,255,255,0.05); border-bottom: 1px solid var(--glass-border);">
+            <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px;">Enter your Gemini API Key (<a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: var(--primary);">Get one here</a>)</p>
+            <div style="display: flex; gap: 8px;">
+                <input type="password" id="geminiApiKey" placeholder="AI_Key_..." style="flex: 1; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); padding: 8px; border-radius: 8px; color: white; font-size: 12px; outline: none;">
+                <button onclick="saveApiKey()" class="btn-confirm-elite" style="padding: 8px 12px; font-size: 12px;">Save</button>
+            </div>
+        </div>
+
+        <div id="aiChatMessages" style="flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px;"></div>
+        
+        <div id="aiTyping" style="display: none; padding: 0 25px 10px; font-size: 12px; color: var(--text-muted); font-style: italic;">
+            Copilot is thinking...
+        </div>
+
+        <div style="padding: 20px; border-top: 1px solid var(--glass-border); display: flex; gap: 10px;">
+            <input type="text" id="aiChatInput" placeholder="Message Copilot..." onkeypress="if(event.key==='Enter') sendChatToAI()" style="flex: 1; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 12px; border-radius: 12px; color: white; outline: none;">
+            <button onclick="sendChatToAI()" class="btn-confirm-elite" style="padding: 0 15px;">➔</button>
+        </div>
+    </div>
+
+    <!-- EDIT MODAL -->
+    <div id="editModal" class="modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center;">
+        <div class="grid-card" style="width: 400px; background: #0f172a;">
+            <h3>Update Mission</h3>
+            <div style="margin: 20px 0; display: flex; flex-direction: column; gap: 10px;">
+                <input type="text" id="editTaskText" style="padding: 12px; background: #1e293b; border: 1px solid #334155; border-radius: 12px; color: white; outline: none;">
+                <div style="display: flex; gap: 10px;">
+                    <input type="date" id="editTaskDueDate" style="flex: 1; padding: 12px; background: #1e293b; border: 1px solid #334155; border-radius: 12px; color: white;">
+                    <input type="text" id="editTaskTag" placeholder="#tag" style="flex: 1; padding: 12px; background: #1e293b; border: 1px solid #334155; border-radius: 12px; color: white;">
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <select id="editTaskCategory" style="flex: 1; padding: 12px; background: #1e293b; border: 1px solid #334155; border-radius: 12px; color: white;">
+                        <option value="Work">Work</option>
+                        <option value="Personal">Personal</option>
+                    </select>
+                    <select id="editTaskPriority" style="flex: 1; padding: 12px; background: #1e293b; border: 1px solid #334155; border-radius: 12px; color: white;">
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
+                    </select>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                <button onclick="closeModal()" class="btn-action">Cancel</button>
+                <br>
+                <button id="saveEditBtn" class="btn-primary-elite">Apply Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="storage.js?v=2.4"></script>
+    <script src="dashboard.js?v=2.4"></script>
+</body>
+</html>

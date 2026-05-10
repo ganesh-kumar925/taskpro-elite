@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register • Task Manager Pro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <!-- Left Side: Form -->
+            <div class="auth-form-section">
+                <div class="form-header">
+                    <div class="logo-circle">TP</div>
+                    <h1>Create Account</h1>
+                    <p>Join thousands of professionals organizing their life.</p>
+                </div>
+
+                <form id="registerForm">
+                    <div class="input-group">
+                        <label for="regName">Full Name</label>
+                        <input type="text" id="regName" placeholder="John Doe" required />
+                    </div>
+
+                    <div class="input-group">
+                        <label for="regEmail">Email Address</label>
+                        <input type="email" id="regEmail" placeholder="name@company.com" required />
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="regPassword">Password</label>
+                        <input type="password" id="regPassword" placeholder="••••••••" required />
+                    </div>
+
+                    <button type="submit" class="btn-primary">Get Started</button>
+                </form>
+
+                <p class="auth-footer">
+                    Already have an account? <a href="index.html">Sign In</a>
+                </p>
+            </div>
+
+            <!-- Right Side: Image/Branding -->
+            <div class="auth-visual-section">
+                <div class="visual-content">
+                    <img src="/ChatGPT Image May 7, 2026, 06_57_36 PM.png" alt="Productivity Illustration" class="floating-img" />
+                    <div class="quote-box">
+                        <p>"Productivity is never an accident. It is always the result of a commitment to excellence."</p>
+                        <span>— Paul J. Meyer</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+</body>
+</html>

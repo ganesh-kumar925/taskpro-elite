@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Copilot • TaskPro Enterprise</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+
+<body onload="loadAIPage()">
+
+    <div class="mesh-gradient"></div>
+
+    <div class="app-shell">
+        
+        <!-- GLOBAL SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="logo">TP</div>
+                <span>TaskPro</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-link">
+                    <span class="icon">🏠</span> Overview
+                </a>
+                <a href="tasks.html" class="nav-link">
+                    <span class="icon">📋</span> My Tasks
+                </a>
+                <a href="analytics.html" class="nav-link">
+                    <span class="icon">📊</span> Analytics
+                </a>
+                <a href="ai.html" class="nav-link active">
+                    <span class="icon">✨</span> AI Copilot
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button onclick="logout()" class="btn-logout">
+                    <span>🚪</span> Logout
+                </button>
+            </div>
+        </aside>
+
+        <main class="content-view">
+            <header class="view-header">
+                <div class="header-left">
+                    <h1>AI Assistant</h1>
+                    <p>Powered by TaskPro Enterprise Intelligence</p>
+                </div>
+            </header>
+
+            <div class="view-body">
+                <div class="chat-terminal">
+                    <div id="chatMessages" class="chat-flow">
+                        <div class="msg ai">
+                            Greetings. I am your TaskPro Assistant. How can I help you optimize your workspace today?
+                        </div>
+                    </div>
+                    <div class="chat-input-bar">
+                        <input type="text" id="aiMessageInput" placeholder="Message Copilot..." onkeypress="if(event.key==='Enter') sendAIMessage()">
+                        <button onclick="sendAIMessage()">Send Message</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="storage.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>
